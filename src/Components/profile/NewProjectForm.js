@@ -1,16 +1,21 @@
 
 import React, { useState } from 'react'
+import { message } from "antd"
+
 import { useFirestore } from 'react-redux-firebase'
 
 export default function NewProjectForm(props) {
-  const { setform } = props
+  const { setform, auth } = props
+
   const firestore = useFirestore();
   const [name, setname] = useState('')
   const [url, seturl] = useState('')
   const [desc, setdesc] = useState('')
+
   const addProject = () => {
     setform(false)
-    return firestore.collection('projects').add({ name, url, desc })
+    message.success("Project Added Succesfully!")
+    return firestore.collection('projects').add({ name, url, desc, userId: auth.currentUser.uid, userEmail: auth.currentUser.email })
   }
 
   return (

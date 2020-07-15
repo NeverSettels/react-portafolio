@@ -7,6 +7,7 @@ import NewProjectForm from './NewProjectForm';
 export default function Main() {
   const [form, setform] = useState(false)
 
+
   const auth = firebase.auth();
   if (!isLoaded(auth)) {
     return (
@@ -27,7 +28,8 @@ export default function Main() {
     console.log(auth.currentUser)
     return (
       <div>
-        {!form ? <ProjectList /> : <NewProjectForm setform={setform} />}
+        <h1>Your Projects</h1>
+        {!form ? <ProjectList currentUser={auth.currentUser} /> : <NewProjectForm auth={auth} setform={setform} />}
         <button onClick={() => setform(true)}>Add Project</button>
       </div >
     )
