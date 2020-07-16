@@ -3,7 +3,7 @@ import firebase from "firebase/app";
 import { message, Button, Modal } from 'antd';
 import { isLoaded } from 'react-redux-firebase'
 import { Link } from "react-router-dom";
-
+import { useFirestore } from 'react-redux-firebase'
 
 
 
@@ -16,13 +16,18 @@ export default function Header() {
   const [signinVisible, setSigninVisible] = useState(false)
   const [signinEmail, setSigninEmail] = useState("")
   const [signinPassword, setSigninPassword] = useState("")
+  const [role, setrole] = useState("Role1")
 
+  const firestore = useFirestore()
   const auth = firebase.auth()
   function doSignUp() {
     if (signupPassword === signupConfirmPassword) {
-      firebase.auth().createUserWithEmailAndPassword(signupEmail, signupPassword).then(function () {
+      firebase.auth().createUserWithEmailAndPassword(signupEmail, signupPassword).then(function (data) {
+        console.log("do i get anything here=>>> ", data.user.uid)
+
         message.success("successfully signed up!");
         setSignupVisible(false)
+        return firestore.collection('users').add({ userId: data.user.uid, role, liked: [] })
       }).catch(function (error) {
         message.error(error.message);
       });
@@ -60,6 +65,13 @@ export default function Header() {
             <input onChange={e => setSignupEmail(e.target.value)} type='text' name='email' placeholder='Email' />
             <input onChange={e => setSignupPassword(e.target.value)} type='password' name='password' placeholder='Password' />
             <input onChange={e => setSignupConfirmPassword(e.target.value)} type='password' name='confirmPassword' placeholder='Confirm Password' />
+
+
+            <select onChange={e => setrole(e.target.value)} name="role" id="cars">
+              <option value="Role1">Role1</option>
+              <option value="Role2">Role2</option>
+            </select>
+
           </form>
         </Modal>
 
