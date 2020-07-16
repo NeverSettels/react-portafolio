@@ -8,9 +8,6 @@ export default function ProjectList(props) {
   const { currentUser } = props
   const firestore = useFirestore();
   const [data, setdata] = useState([])
-  useFirestoreConnect([{ collection: 'projects' }])
-  const projects = useSelector(state => state.firestore.ordered.projects)
-
 
   useEffect(() => {
 
@@ -28,30 +25,14 @@ export default function ProjectList(props) {
         console.log("Error getting documents: ", error);
       });
   }, [])
-  //  firestore.collection("projects").where("userId", "==", currentUser.uid).get()
-  //   .then(function (querySnapshot) {
-  //     querySnapshot.forEach(function (doc) {
-  //       console.log(doc)
-  //       setdata([...data, doc.data()])
-  //       console.log(doc.id, '==>', doc.data());
-  //     });
-  //   })
-  // .catch(function (error) {
-  //   console.log("Error getting documents: ", error);
-  // });
-  if (isLoaded(projects)) {
-    return (
-      <div className="card-container">
-        {/*this v doesnt make sence bc checking whole lib instead of user projects */}
-        {projects.length === 0 ? <h1>Nothing yet add some!</h1> : projects.map(project => {
-          if (project.userId === currentUser.uid) {
-            return (<ProjectCard key={project.id} project={project} />)
-          }
-        })}
-      </div>
-    )
 
-  } else {
-    return <h1>Loading</h1>
-  }
+
+  return (
+    <div className="card-container">
+      {data.length === 0 ? <h1>Nothing yet add some!</h1> : data.map(project => <ProjectCard key={project.id} project={project} />)}
+
+    </div>
+  )
+
+
 }
