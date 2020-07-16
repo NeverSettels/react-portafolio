@@ -13,7 +13,6 @@ export default function ProjectList(props) {
       .then(function (querySnapshot) {
         let temp = [...data];
         querySnapshot.forEach(function (doc) {
-          console.log(doc.data());
           temp = [...temp, { ...doc.data(), id: doc.id }];
           console.log(doc.id, '==>', doc.data());
         });
