@@ -12,7 +12,7 @@ export default function Landing() {
         <h1>All Projects</h1>
         <div className="card-container">
 
-          {projects.length === 0 ? <h1>Nothing yet add some!</h1> : projects.map(project => (<ProjectCard project={project} />))}
+          {projects.length === 0 ? <h1>Nothing yet add some!</h1> : projects.map(project => (<ProjectCard key={project.id} project={project} />))}
         </div>
       </>
     )

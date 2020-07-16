@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { useFirestoreConnect, isLoaded } from 'react-redux-firebase';
 import ProjectCard from "../ProjectCard"
 import { useFirestore } from 'react-redux-firebase'
 
@@ -15,8 +13,8 @@ export default function ProjectList(props) {
       .then(function (querySnapshot) {
         let temp = [...data];
         querySnapshot.forEach(function (doc) {
-          console.log(doc);
-          temp = [...temp, doc.data()];
+          console.log(doc.data());
+          temp = [...temp, { ...doc.data(), id: doc.id }];
           console.log(doc.id, '==>', doc.data());
         });
         setdata(temp);

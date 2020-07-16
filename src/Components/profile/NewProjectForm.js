@@ -15,7 +15,7 @@ export default function NewProjectForm(props) {
   const addProject = () => {
     setform(false)
     message.success("Project Added Succesfully!")
-    return firestore.collection('projects').add({ name, url, desc, userId: auth.currentUser.uid, userEmail: auth.currentUser.email })
+    return firestore.collection('projects').add({ name, url, desc, userId: auth.currentUser.uid, userEmail: auth.currentUser.email, likes: 0, usersLiked: [] })
   }
 
   return (
